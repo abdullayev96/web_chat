@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            width: calc(100% - 120px);
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Foydalanuvchilarni qidirish bo'limi:</h1>
+        <form method="GET" action="{% url 'search_users' %}">
+            <input type="text" name="q" placeholder="Search by username, name, position, or department" value="{{ query }}">
+            <button type="submit">Search</button>
+        </form>
+
+        {% if users %}
+            <ul>
+                {% for user in users %}
+                    <li><a href="{% url 'chat_room' username=user.username %}">Chat with {{ user.username}} || {{ user.first_name}} || {{ user.position}} || {{ user.department}} </a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No users found matching your search criteria.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+{% endblock %}
+
+
